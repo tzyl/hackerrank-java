@@ -1,36 +1,45 @@
 package com.tzyl.hackerrank.worldcodesprint.wcs13.watsonsLoveForArrays;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Solution {
 
     /**
-     * Optimized brute force O(n^2).
-     *
-     * Timeout on 3 test cases.
+     * O(n) looking for target based on modular inverse.
      */
     public static long howManyGoodSubarrays(int[] A, int m, int k) {
-        Map<Long, Long> counts = new HashMap<>();
         long total = 0;
-
-        for (int i = 0; i < A.length; i++) {
-            long current = A[i] % m;
-            Map<Long, Long> newCounts = new HashMap<>();
-
-            // Subarrays ending at previous element combined with the current element.
-            counts.forEach((product, count) -> {
-                long newProduct = (product * current) % m;
-                newCounts.put(newProduct, newCounts.getOrDefault(newProduct, 0L) + count);
-            });
-            // Single element subarray
-            newCounts.put(current, newCounts.getOrDefault(current, 0L) + 1);
-
-            counts = newCounts;
-            total += counts.getOrDefault((long) k, 0L);
+        // Initialize product to k rather than 1 to deal with the case k = 0.
+        // This is safe because if k != 0 mod m then x != 0 mod m => x * k != 0 mod m.
+        long product = k;
+        Map<Long, Integer> counts = new HashMap<>();
+        increment(counts, (product * k) % m);
+        for (int j = 0; j < A.length; j++) {
+            long current = A[j] % m;
+            if (current == 0) {
+                counts.clear();
+                product = k;
+            } else {
+                product = (product * current) % m;
+                total += counts.getOrDefault(product, 0);
+            }
+            // Count all solutions of i < j to implicit equation P_j = P_i * k mod m.
+            // If k = 0 this counts all consecutive non zero elements before.
+            increment(counts, (product * k) % m);
         }
-
+        if (k == 0) {
+            // If k = 0 the good arrays are all those which contain a zero.
+            // We counted all arrays which don't contain a zero so return complement.
+            long n = A.length;
+            return (n * (n + 1) / 2) - total;
+        }
         return total;
+    }
+
+    private static <K> void increment(Map<K, Integer> counts, K key) {
+        counts.put(key, counts.getOrDefault(key, 0) + 1);
     }
 
     private static final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
