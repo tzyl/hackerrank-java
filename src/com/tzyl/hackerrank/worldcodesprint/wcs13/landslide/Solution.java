@@ -96,7 +96,7 @@ public class Solution {
             }
         }
 
-        lcaOffline = new HashMap<>(n);
+        lcaOffline = new HashMap<>(lcaQueries.size());
         // DFS to build tree and pre-process LCA.
         // Root the tree at vertex 0 (arbitrary choice).
         buildTree(vertexNodes[0], lcaQueries);
@@ -109,6 +109,7 @@ public class Solution {
 
         boolean[] seen = new boolean[n];
         seen[root.key] = true;
+        root.parent = root;
 
         Deque<Integer> stack = new ArrayDeque<>();
         stack.push(root.key);
@@ -150,10 +151,8 @@ public class Solution {
                     }
                 }
 
-                if (u.parent != null) {
-                    dsf.union(u.key, u.parent.key);
-                    vertexNodes[dsf.find(u.parent.key)].ancestor = u.parent;
-                }
+                dsf.union(u.key, u.parent.key);
+                vertexNodes[dsf.find(u.parent.key)].ancestor = u.parent;
             }
         }
     }
@@ -167,7 +166,6 @@ public class Solution {
         return (u.depth - lca.depth) + (v.depth - lca.depth);
     }
 
-    // private static final Scanner scanner = new Scanner(System.in);
     private static final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {

@@ -15,40 +15,38 @@ class SolutionTest {
     @Test
     public void testBasicCase() throws IOException {
         int n = 10;
-        String input =
-                "1 9\n" +
-                        "4 8\n" +
-                        "9 7\n" +
-                        "2 4\n" +
-                        "3 6\n" +
-                        "1 2\n" +
-                        "9 10\n" +
-                        "2 3\n" +
-                        "4 5\n" +
-                        "14\n" +
-                        "q 1 6\n" +
-                        "q 9 2\n" +
-                        "d 2 3\n" +
-                        "c 3 9\n" +
-                        "d 1 9\n" +
-                        "q 1 6\n" +
-                        "q 5 10\n" +
-                        "c 1 9\n" +
-                        "q 2 7\n" +
-                        "d 1 10\n" +
-                        "q 5 3\n" +
-                        "c 2 3\n" +
-                        "q 6 4\n" +
-                        "q 2 3\n";
-        String expected =
+        String input = "1 9\n" +
+                "4 8\n" +
+                "9 7\n" +
+                "2 4\n" +
+                "3 6\n" +
+                "1 2\n" +
+                "9 10\n" +
+                "2 3\n" +
+                "4 5\n" +
+                "14\n" +
+                "q 1 6\n" +
+                "q 9 2\n" +
+                "d 2 3\n" +
+                "c 3 9\n" +
+                "d 1 9\n" +
+                "q 1 6\n" +
+                "q 5 10\n" +
+                "c 1 9\n" +
+                "q 2 7\n" +
+                "d 1 10\n" +
+                "q 5 3\n" +
+                "c 2 3\n" +
+                "q 6 4\n" +
+                "q 2 3\n";
+        String expected = "3\n" +
+                "2\n" +
+                "Impossible\n" +
+                "Impossible\n" +
                 "3\n" +
-                        "2\n" +
-                        "Impossible\n" +
-                        "Impossible\n" +
-                        "3\n" +
-                        "Impossible\n" +
-                        "3\n" +
-                        "1\n";
+                "Impossible\n" +
+                "3\n" +
+                "1\n";
 
         // Set stdin
         System.setIn(new ByteArrayInputStream(input.getBytes()));
